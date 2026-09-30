@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Bézier 曲线编辑器</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="toolbar">
+      <div class="brand">Bézier 编辑器</div>
+      <div class="group">
+        <button id="btn-add-point" title="在选中曲线末尾添加控制点（双击画布可新建）">+ 控制点</button>
+        <button id="btn-delete-point" title="删除选中控制点（Delete）">− 控制点</button>
+      </div>
+      <div class="group">
+        <button id="btn-elevate" title="升阶（+）">升阶</button>
+        <button id="btn-reduce" title="降阶（最小二乘近似，−）">降阶</button>
+      </div>
+      <div class="group">
+        <button id="btn-split" title="在参数 t 处分割（S）">分割</button>
+        <button id="btn-merge" title="合并两条选中曲线（Shift+点击曲线体多选）">合并</button>
+      </div>
+      <div class="group">
+        <button id="btn-undo" title="撤销（Ctrl+Z）">撤销</button>
+        <button id="btn-redo" title="重做（Ctrl+Shift+Z）">重做</button>
+      </div>
+      <div class="group">
+        <button id="btn-clear">清空</button>
+        <button id="btn-reset">示例</button>
+        <button id="btn-selftest" class="accent">运行自检</button>
+      </div>
+      <div class="spacer"></div>
+      <div class="t-control">
+        <label for="t-range">t = <span id="t-value">0.500</span></label>
+        <input id="t-range" type="range" min="0" max="1" step="0.001" value="0.5">
+      </div>
+    </header>
+
+    <div class="main">
+      <aside class="sidebar">
+        <section>
+          <h3>显示</h3>
+          <label class="check"><input type="checkbox" id="opt-polygon" checked> 控制多边形</label>
+          <label class="check"><input type="checkbox" id="opt-comb"> 曲率梳</label>
+          <label class="check"><input type="checkbox" id="opt-osculating"> 密切圆</label>
+          <label class="check"><input type="checkbox" id="opt-clamp"> 钳制控制点到画布</label>
+        </section>
+        <section>
+          <h3>曲线信息</h3>
+          <table class="kv">
+            <tr><td>阶数</td><td id="info-degree">—</td></tr>
+            <tr><td>控制点数</td><td id="info-points">—</td></tr>
+            <tr><td>渲染段数</td><td id="info-segments">—</td></tr>
+          </table>
+        </section>
+        <section>
+          <h3>求值 / 切线 / 曲率</h3>
+          <table class="kv">
+            <tr><td>P(t)</td><td>(<span id="eval-x">—</span>, <span id="eval-y">—</span>)</td></tr>
+            <tr><td>切向量 / 角</td><td id="eval-tangent">—</td></tr>
+            <tr><td>|P′|</td><td id="eval-speed">—</td></tr>
+            <tr><td>曲率 κ</td><td id="eval-curvature">—</td></tr>
+            <tr><td>曲率半径</td><td id="eval-radius">—</td></tr>
+          </table>
+        </section>
+        <section>
+          <h3>操作提示</h3>
+          <ul class="hints">
+            <li>拖动控制点编辑曲线</li>
+            <li>双击空白处新建曲线</li>
+            <li>Shift + 点击曲线体多选以合并</li>
+            <li>Delete 删除点 / 曲线</li>
+            <li>阶数上限 48，超限自动折线降级</li>
+          </ul>
+        </section>
+        <section id="test-panel">
+          <h3>自检结果</h3>
+          <div id="test-results" class="test-results"></div>
+        </section>
+      </aside>
+
+      <div class="canvas-wrap">
+        <canvas id="canvas"></canvas>
+        <div id="toast" class="toast"></div>
+      </div>
+    </div>
+
+    <footer class="statusbar">
+      <span id="status">就绪</span>
+      <span class="hint-right">Canvas 2D · Pointer Events · Web Worker · IndexedDB</span>
+    </footer>
+  </div>
+
+  <script src="js/bezier.js"></script>
+  <script src="js/geometry.js"></script>
+  <script src="js/idb.js"></script>
+  <script src="js/selftest.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
