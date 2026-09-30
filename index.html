@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>贝塞尔曲线实验室</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <main class="workspace">
+        <header class="topbar">
+          <div>
+            <h1>贝塞尔曲线实验室</h1>
+            <p>Canvas · Pointer Events · Web Worker · IndexedDB</p>
+          </div>
+          <div class="top-actions">
+            <button id="resetView" type="button">复位视图</button>
+            <span id="saveState" class="save-state">未保存</span>
+          </div>
+        </header>
+        <div class="canvas-wrap">
+          <canvas id="canvas" aria-label="贝塞尔曲线编辑画布"></canvas>
+          <div id="status" class="status" role="status" aria-live="polite">准备就绪</div>
+        </div>
+      </main>
+
+      <aside class="panel">
+        <section class="card">
+          <h2>编辑</h2>
+          <div class="button-grid">
+            <button id="addPoint" type="button">添加控制点</button>
+            <button id="deletePoint" type="button">删除控制点</button>
+            <button id="raiseDegree" type="button">升阶</button>
+            <button id="lowerDegree" type="button">降阶</button>
+            <button id="splitCurve" type="button">分割曲线</button>
+            <button id="mergeCurves" type="button">合并选择</button>
+          </div>
+          <p class="hint">单击选择曲线，点击圆点拖拽；Shift/Ctrl 多选；空白处拖动画布，滚轮缩放。</p>
+        </section>
+
+        <section class="card">
+          <h2>参数</h2>
+          <label class="field">
+            <span>分割参数 t</span>
+            <input id="splitT" type="number" min="0.01" max="0.99" step="0.01" value="0.5" />
+          </label>
+          <label class="field">
+            <span>求值 t</span>
+            <input id="evalT" type="number" min="0" max="1" step="0.01" value="0.5" />
+          </label>
+        </section>
+
+        <section class="card">
+          <h2>求值结果</h2>
+          <dl class="metrics">
+            <div><dt>阶数</dt><dd id="metricDegree">-</dd></div>
+            <div><dt>点 C(t)</dt><dd id="metricPoint">-</dd></div>
+            <div><dt>切线</dt><dd id="metricTangent">-</dd></div>
+            <div><dt>一阶导</dt><dd id="metricDerivative">-</dd></div>
+            <div><dt>曲率</dt><dd id="metricCurvature">-</dd></div>
+            <div><dt>曲率半径</dt><dd id="metricRadius">-</dd></div>
+          </dl>
+        </section>
+
+        <section class="card">
+          <h2>历史</h2>
+          <div class="history-row">
+            <button id="undo" type="button">撤销</button>
+            <button id="red" type="button">重做</button>
+          </div>
+          <p class="hint">快捷键：Ctrl/⌘+Z 撤销，Ctrl/⌘+Shift+Z 或 Ctrl+Y 重做，Delete 删除点。</p>
+        </section>
+
+        <section class="card legend">
+          <h2>可视化</h2>
+          <ul>
+            <li><i class="line"></i> 贝塞尔曲线</li>
+            <li><i class="polygon"></i> 控制多边形</li>
+            <li><i class="tangent"></i> 单位切线</li>
+            <li><i class="curvature"></i> 曲率圆</li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
